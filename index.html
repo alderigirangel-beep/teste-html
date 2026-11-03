@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuko Hou - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+    <!-- Banner Principal -->
+    <section class="banner-carousel">
+        <div class="banner-slides">
+            <img src="banner 1 sally.png" class="slide active" alt="Banner 1">
+            <img src="banner 2 ace.png" class="slide" alt="Banner 2">
+            <img src="btemporario2.jpg" class="slide" alt="Banner 3">
+        </div>
+        <div class="banner-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Menu de Navegação -->
+    <nav class="bottons">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active-link">Home</a></li>
+                <li><a href="ajuda.html">Ajuda</a></li>
+                <li><a href="desempenho.html">Meu Desempenho</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- ÁREA DE USUÁRIO ISOLADA -->
+                <div id="userAuthArea" style="display: flex; gap: 8px; align-items: center;">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="signup.html" class="btn btn-primary">Sign up</a>
+                </div>
+                
+                <!-- CONTROLE DE DALTONISMO PRESERVADO -->
+                <details class="colorblind-control">
+                    <summary class="btn-colorblind">👁️ Filtro Daltonismo</summary>
+                    <div class="colorblind-dropdown">
+                        <button type="button" data-filter="none">Nenhum (Normal)</button>
+                        <button type="button" data-filter="deuteranopia">Deuteranopia (Verde)</button>
+                        <button type="button" data-filter="protanopia">Protanopia (Vermelho)</button>
+                        <button type="button" data-filter="tritanopia">Tritanopia (Azul)</button>
+                        <button type="button" data-filter="achromatopsia">Achromatopsia (PB)</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="content-grid">
+
+            <!-- Lado Esquerdo: Dicas Organizadas -->
+            <aside class="sidebar side-left">
+                <div class="side-card">
+                    <h3 style="margin-top: 0; color: var(--accent-mint); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                        💡 Dicas para o ENEM
+                    </h3>
+                    
+                    <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-main); margin-bottom: 15px;">
+                        O ENEM cobra habilidades e competências específicas. Entenda o peso de cada área e foque na <strong>Teoria de Resposta ao Item (TRI)</strong>: acertar questões fáceis e médias garante uma nota base sólida!
+                    </p>
+
+                    <ul class="faq-list">
+                        <li>📚🎧☕ <strong>Priorize o estudo ativo:</strong> Faça questões e resumos com as próprias palavras.</li>
+                        <li>‼ <strong>Análise de erros:</strong> Identifique por que errou cada questão nos simulados.</li>
+                        <li>ﮩ٨ـﮩﮩ٨ـ♡ﮩ٨ـﮩﮩ٨ـ <strong>Atividade física:</strong> Exercícios regulares ajudam a manter o foco e a memória.</li>
+                        <li>≽^• ˕ • ྀི≼ <strong>Pausas ativas:</strong> Descanse a vista a cada 50 minutos de estudo.</li>
+                        <li>ㅤ♡ <strong>Manejo do estresse:</strong> Pratique técnicas de respiração e controle da ansiedade.</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Centro: Seções -->
+            <section class="center-artwork">
+                <div class="section-title">
+                    <h2>Seções:</h2>
+                </div>
+                
+                <div class="artwork-grid">
+                    <a href="estudos.html" style="text-decoration: none; color: inherit; display: block;">
+                        <div class="art-card">
+                            <img src="1000605594.png" alt="Estudos">
+                            <span class="artist-tag">estudos</span>
+                        </div>
+                    </a>
+                    <a href="trabalho.html" style="text-decoration: none; color: inherit; display: block;">
+                        <div class="art-card">
+                            <img src="mrs bolha.png" alt="Trabalho">
+                            <span class="artist-tag">trabalho</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Lado Direito: Dúvidas Recorrentes -->
+            <aside class="sidebar side-right">
+                <div class="faq-box">
+                    <h3 style="margin-top: 0; font-size: 1.1rem; text-align: center;">・┆✦ʚ♡ɞ✦ ┆・ Dúvidas recorrentes ・┆✦ʚ♡ɞ✦ ┆・</h3>
+                    
+                    <div class="faq-accordion" id="faqContainer"></div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- SCRIPT TUDO-EM-UM (SEM DEPENDÊNCIA EXTERNA QUE FAÇA SUMIR PERGUNTAS) -->
+    <script>
+        // 1. CARROSSEL DE BANNERS (10 SEGUNDOS)
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let bannerInterval;
+
+        function goToSlide(index) {
+            if (slides.length === 0) return;
+            slides.forEach(s => s.classList.remove('active'));
+            indicators.forEach(i => i.classList.remove('active'));
+
+            currentSlide = index;
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            goToSlide(next);
+        }
+
+        if (slides.length > 0) {
+            bannerInterval = setInterval(nextSlide, 10000);
+        }
+
+        indicators.forEach((ind, i) => {
+            ind.addEventListener('click', () => {
+                clearInterval(bannerInterval);
+                goToSlide(i);
+                bannerInterval = setInterval(nextSlide, 10000);
+            });
+        });
+
+        // 2. LISTA DE DÚVIDAS RECORRENTES (GARANTIDA)
+        const duvidasPadrao = [
+            {
+                pergunta: "Como funciona a plataforma Fuko Hou?",
+                resposta: "A Fuko Hou oferece cronogramas, conteúdos interativos e simulados para ajudar na sua preparação acadêmica e profissional."
+            },
+            {
+                pergunta: "Como acumular EXP e subir de nível?",
+                resposta: "Realizando atividades na página de Estudos! Cada simulado ou resumo concluído gera experiência que aumenta seu nível no painel 'Meu Desempenho'."
+            },
+            {
+                pergunta: "Os conteúdos são atualizados para o ENEM?",
+                resposta: "Sim, nossas listas de exercícios e dicas são alinhadas com a Matriz de Referência e com a TRI do ENEM."
+            },
+            {
+                pergunta: "Como utilizar o filtro de daltonismo?",
+                resposta: "Basta clicar no botão '👁️ Filtro Daltonismo' no menu superior e escolher a variação correspondente ao seu tipo de visão."
+            }
+        ];
+
+        async function carregarDuvidas() {
+            const container = document.getElementById('faqContainer');
+            if (!container) return;
+
+            let duvidas = duvidasPadrao;
+
+            // Tenta buscar do JSON caso exista num servidor web local; se falhar, usa duvidasPadrao
+            try {
+                const resposta = await fetch('duvidas.json');
+                if (resposta.ok) {
+                    duvidas = await resposta.json();
+                }
+            } catch (e) {
+                // Se der erro de CORS/file://, usa os dados padrão definidos acima
+            }
+
+            container.innerHTML = '';
+            duvidas.forEach(item => {
+                const details = document.createElement('details');
+                details.className = 'faq-item';
+                details.innerHTML = `
+                    <summary>${item.pergunta}</summary>
+                    <div class="faq-answer">${item.resposta}</div>
+                `;
+                container.appendChild(details);
+            });
+        }
+
+        // 3. VERIFICAÇÃO DE USUÁRIO LOGADO
+        function checarSessaoUsuario() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userAuthArea = document.getElementById('userAuthArea');
+
+            if (currentUser && userAuthArea) {
+                const userName = currentUser.name || currentUser.email.split('@')[0];
+                const userAvatar = currentUser.avatar || 'https://via.placeholder.com/80';
+
+                userAuthArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <img src="${userAvatar}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-pink);" alt="Perfil">
+                        <span style="font-size: 0.9rem; font-weight: 600;">${userName}</span>
+                    </div>
+                    <button id="logoutBtn" class="btn btn-outline" style="margin-left: 5px; padding: 5px 10px; font-size: 0.8rem;">Sair</button>
+                `;
+
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            }
+        }
+
+        // 4. INICIALIZAÇÃO E FILTRO DE DALTONISMO
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDuvidas();
+            checarSessaoUsuario();
+
+            const root = document.documentElement;
+            const buttons = document.querySelectorAll('.colorblind-dropdown button');
+            const detailsMenu = document.querySelector('details.colorblind-control');
+
+            const filters = {
+                'none': 'none',
+                'protanopia': 'sepia(0.6) hue-rotate(-50deg) saturate(2.5)',
+                'deuteranopia': 'sepia(0.8) hue-rotate(170deg) saturate(1.2)',
+                'tritanopia': 'sepia(0.5) hue-rotate(80deg) saturate(2.2)',
+                'achromatopsia': 'grayscale(100%)'
+            };
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filterType = e.target.getAttribute('data-filter');
+                    if (filters[filterType] !== undefined) {
+                        root.style.filter = filters[filterType];
+                    }
+                    if (detailsMenu) {
+                        detailsMenu.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuko Hou - Sign up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+    <main class="main-content auth-container">
+        <div class="auth-card">
+            <h2>Criar Conta</h2>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="signupName" placeholder="Seu Nome" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="signupEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Palavra-passe</label>
+                    <input type="password" id="signupPassword" placeholder="******" required>
+                </div>
+                
+                <button type="submit" class="view-more-btn" style="margin-top: 15px;">Sign up</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 15px; font-size: 0.85rem;">
+                Já tem conta? <a href="login.html" style="color: var(--accent-mint);">Entrar</a> | <a href="index.html" style="color: var(--text-muted);">Voltar</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        // LÓGICA DE CADASTRO
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value.trim();
+
+            let users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+            // Verifica se o e-mail já existe
+            if (users.some(u => u.email === email)) {
+                alert('Este e-mail já está cadastrado! Tente fazer login.');
+                return;
+            }
+
+            // Cria o objeto do novo usuário
+            const newUser = {
+                name: name,
+                email: email,
+                password: password
+            };
+
+            // Salva na lista de usuários cadastrados
+            users.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+
+            alert('Conta criada com sucesso! Faça login para continuar.');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

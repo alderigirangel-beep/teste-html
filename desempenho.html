@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuko Hou - Meu Desempenho</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+    <!-- Filtros SVG de Daltonismo -->
+    <svg style="display:none;">
+        <defs>
+            <filter id="protanopia"><feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0   0.558, 0.442, 0, 0, 0   0, 0.242, 0.758, 0, 0   0, 0, 0, 1, 0" /></filter>
+            <filter id="deuteranopia"><feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0   0.7, 0.3, 0, 0, 0   0, 0.3, 0.7, 0, 0   0, 0, 0, 1, 0" /></filter>
+            <filter id="tritanopia"><feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0   0, 0.433, 0.567, 0, 0   0, 0.475, 0.525, 0, 0   0, 0, 0, 1, 0" /></filter>
+        </defs>
+    </svg>
+
+    <!-- Banner Principal -->
+    <section class="banner-carousel">
+        <div class="banner-slides">
+            <img src="banner 1 sally.png" class="slide active" alt="Banner 1">
+            <img src="banner 2 ace.png" class="slide" alt="Banner 2">
+            <img src="btemporario2.jpg" class="slide" alt="Banner 3">
+        </div>
+        <div class="banner-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Menu de Navegação -->
+    <nav class="bottons">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ajuda.html">Ajuda</a></li>
+                <li><a href="desempenho.html" class="active-link">Meu Desempenho</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- ÁREA DE USUÁRIO ISOLADA -->
+                <div id="userAuthArea" style="display: flex; gap: 8px; align-items: center;">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="signup.html" class="btn btn-primary">Sign up</a>
+                </div>
+
+                <!-- CONTROLE DE DALTONISMO PRESERVADO -->
+                <div class="colorblind-control">
+                    <button id="colorblindBtn" class="btn-colorblind">👁️ Filtro Daltonismo</button>
+                    <div id="colorblindMenu" class="colorblind-dropdown" style="display: none;">
+                        <button data-filter="none">Nenhum (Normal)</button>
+                        <button data-filter="deuteranopia">Deuteranopia (Verde)</button>
+                        <button data-filter="protanopia">Protanopia (Vermelho)</button>
+                        <button data-filter="tritanopia">Tritanopia (Azul)</button>
+                        <button data-filter="achromatopsia">Achromatopsia (PB)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTAINER ESTILO Y2K / WEBCORE -->
+    <main class="webcore-dashboard">
+        <div class="webcore-wrapper">
+            
+            <!-- COLUNA DA ESQUERDA: PERFIL E MENU RÁPIDO -->
+            <aside class="webcore-sidebar-left">
+                <!-- Moldura de Perfil -->
+                <div class="webcore-avatar-frame">
+                    <img id="userAvatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/></svg>" alt="Perfil Sem Foto">
+                </div>
+
+                <!-- Botões Estilo Widget Retro -->
+                <div class="webcore-widget-box">
+                    <div class="widget-header">★ PERFIL DO ESTUDANTE</div>
+                    <div class="user-status-text">
+                        <strong id="userName">Visitante</strong>
+                        <span id="userStatus">Status: Não logado</span>
+                    </div>
+                    <div id="userRankTag" class="rank-tag rank-bronze">🥉 NÍVEL BRONZE</div>
+                </div>
+
+                <!-- Resumo Rápido de Horas -->
+                <div class="webcore-widget-box">
+                    <div class="widget-header">⏱️ HORAS DE ESTUDO</div>
+                    <div id="hoursCounter" class="big-counter">0.0h</div>
+                    <p class="counter-sub">Nesta semana</p>
+                </div>
+            </aside>
+
+            <!-- COLUNA CENTRAL: RELATÓRIOS E PROGRESSO -->
+            <section class="webcore-main-panel">
+                <div class="webcore-window">
+                    <div class="window-title-bar">
+                        <span>★ PAINEL_DE_DESEMPENHO ★</span>
+                    </div>
+                    
+                    <div class="window-content">
+                        <!-- Título em Estilo Retro/Goth -->
+                        <h2 class="goth-title">PROGRESSO ACADÊMICO</h2>
+                        <p class="goth-intro">Acompanhe sua evolução diária, progresso de nível e histórico de atividades praticadas na plataforma.</p>
+
+                        <!-- Sistema de Ranks (Bronze -> Diamante) -->
+                        <div class="webcore-rank-box">
+                            <div class="rank-header-flex">
+                                <span>PROGRESSO DE EXP</span>
+                                <span class="rank-next">PRÓXIMO: <strong>PRATA 🥈</strong></span>
+                            </div>
+                            <div class="rank-progress-bar">
+                                <div class="rank-progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <div class="rank-tier-list">
+                                <span class="tier-item current">🥉 Bronze</span>
+                                <span class="tier-item">🥈 Prata</span>
+                                <span class="tier-item">🥇 Ouro</span>
+                                <span class="tier-item">💎 Diamante</span>
+                            </div>
+                        </div>
+
+                        <!-- Frequência Semanal -->
+                        <div class="webcore-section-title">✦ FREQUÊNCIA DA SEMANA</div>
+                        <div class="webcore-days-row">
+                            <div class="day-badge" id="day-seg"><span>SEG</span></div>
+                            <div class="day-badge" id="day-ter"><span>TER</span></div>
+                            <div class="day-badge" id="day-qua"><span>QUA</span></div>
+                            <div class="day-badge" id="day-qui"><span>QUI</span></div>
+                            <div class="day-badge" id="day-sex"><span>SEX</span></div>
+                            <div class="day-badge" id="day-sab"><span>SÁB</span></div>
+                            <div class="day-badge" id="day-dom"><span>DOM</span></div>
+                        </div>
+
+                        <!-- Atividades Concluídas -->
+                        <div class="webcore-section-title">✦ ÚLTIMAS ATIVIDADES</div>
+                        <div class="webcore-activity-list" id="activityContainer">
+                            <div class="webcore-act-card">
+                                <span>Nenhuma atividade realizada ainda.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="window-footer-bar">
+                        <span>[ Fuko Hou Performance System v2.0 ]</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COLUNA DA DIREITA: STATUS E WIDGET DE NOTAS -->
+            <aside class="webcore-sidebar-right">
+                <div class="webcore-chat-bubble">
+                    <div class="bubble-header">freshfuko666</div>
+                    <div class="bubble-body">
+                        <p id="chatFeedback">Bem-vindo(a)! Complete estudos na página de matérias para acumular EXP e alcançar o Nível Prata! ⚡</p>
+                    </div>
+                </div>
+
+                <!-- Mascot Sticker / Chibi Frame -->
+                <div class="chibi-sticker-box">
+                    <img src="mrs bolha.png" alt="Mascote" class="chibi-img">
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // CARROSSEL DE BANNERS
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let bannerInterval;
+
+        function goToSlide(index) {
+            if (slides.length === 0) return;
+            slides.forEach(s => s.classList.remove('active'));
+            indicators.forEach(i => i.classList.remove('active'));
+
+            currentSlide = index;
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            goToSlide(next);
+        }
+
+        if (slides.length > 0) {
+            bannerInterval = setInterval(nextSlide, 10000);
+        }
+
+        indicators.forEach((ind, i) => {
+            ind.addEventListener('click', () => {
+                clearInterval(bannerInterval);
+                goToSlide(i);
+                bannerInterval = setInterval(nextSlide, 10000);
+            });
+        });
+
+        // FILTRO DE DALTONISMO
+        document.addEventListener('DOMContentLoaded', () => {
+            const root = document.documentElement;
+            const colorblindBtn = document.getElementById('colorblindBtn');
+            const colorblindMenu = document.getElementById('colorblindMenu');
+            const buttons = document.querySelectorAll('.colorblind-dropdown button');
+
+            const filters = {
+                'none': 'none',
+                'protanopia': 'sepia(0.6) hue-rotate(-50deg) saturate(2.5)',
+                'deuteranopia': 'sepia(0.8) hue-rotate(170deg) saturate(1.2)',
+                'tritanopia': 'sepia(0.5) hue-rotate(80deg) saturate(2.2)',
+                'achromatopsia': 'grayscale(100%)'
+            };
+
+            if (colorblindBtn && colorblindMenu) {
+                colorblindBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isVisible = colorblindMenu.style.display === 'block';
+                    colorblindMenu.style.display = isVisible ? 'none' : 'block';
+                });
+
+                document.addEventListener('click', () => {
+                    colorblindMenu.style.display = 'none';
+                });
+
+                colorblindMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filterType = e.target.getAttribute('data-filter');
+                    if (filters[filterType] !== undefined) {
+                        root.style.filter = filters[filterType];
+                    }
+                    if (colorblindMenu) colorblindMenu.style.display = 'none';
+                });
+            });
+
+            // LÓGICA DE CARREGAMENTO DO PERFIL E ESTUDOS
+            carregarPerfilEProgresso();
+        });
+
+        function carregarPerfilEProgresso() {
+            // Verificar Login
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const userStatus = document.getElementById('userStatus');
+            const userAuthArea = document.getElementById('userAuthArea');
+
+            if (currentUser) {
+                const name = currentUser.name || currentUser.email.split('@')[0];
+                const avatar = currentUser.avatar || 'https://via.placeholder.com/80';
+
+                // Atualiza Sidebar do Desempenho
+                if (userAvatar) userAvatar.src = avatar;
+                if (userName) userName.textContent = name;
+                if (userStatus) userStatus.textContent = currentUser.email;
+
+                // Atualiza Topo da Navegação mantendo o filtro de daltonismo intacto
+                if (userAuthArea) {
+                    userAuthArea.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <img src="${avatar}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-pink);" alt="Perfil">
+                            <span style="font-size: 0.9rem; font-weight: 600;">${name}</span>
+                        </div>
+                        <button id="logoutBtn" class="btn btn-outline" style="margin-left: 5px; padding: 5px 10px; font-size: 0.8rem;">Sair</button>
+                    `;
+
+                    document.getElementById('logoutBtn').addEventListener('click', () => {
+                        localStorage.removeItem('currentUser');
+                        window.location.reload();
+                    });
+                }
+            } else {
+                if (userName) userName.textContent = 'Visitante';
+                if (userStatus) userStatus.textContent = 'Status: Não logado';
+            }
+
+            // Ler EXP e Horas
+            const expTotal = parseInt(localStorage.getItem('fuko_user_exp')) || 0;
+            const horasEstudo = parseFloat(localStorage.getItem('fuko_user_hours')) || 0.0;
+
+            const hoursCounter = document.getElementById('hoursCounter');
+            if (hoursCounter) hoursCounter.textContent = `${horasEstudo.toFixed(1)}h`;
+
+            // Calcular Nível
+            atualizarNivel(expTotal);
+
+            // Carregar Atividades
+            carregarAtividades();
+        }
+
+        function atualizarNivel(exp) {
+            let rankAtual = "BRONZE";
+            let classeRank = "rank-bronze";
+            let proximoRank = "PRATA 🥈";
+            let porcentagem = 0;
+
+            if (exp <= 300) {
+                rankAtual = "BRONZE";
+                classeRank = "rank-bronze";
+                proximoRank = "PRATA 🥈";
+                porcentagem = (exp / 300) * 100;
+            } else if (exp <= 800) {
+                rankAtual = "PRATA";
+                classeRank = "rank-prata";
+                proximoRank = "OURO 🥇";
+                porcentagem = ((exp - 300) / 500) * 100;
+            } else if (exp <= 1500) {
+                rankAtual = "OURO";
+                classeRank = "rank-ouro";
+                proximoRank = "DIAMANTE 💎";
+                porcentagem = ((exp - 800) / 700) * 100;
+            } else {
+                rankAtual = "DIAMANTE";
+                classeRank = "rank-diamante";
+                proximoRank = "NÍVEL MÁXIMO ⚡";
+                porcentagem = 100;
+            }
+
+            const rankTag = document.getElementById('userRankTag');
+            if (rankTag) {
+                rankTag.className = `rank-tag ${classeRank}`;
+                rankTag.textContent = `🥉 NÍVEL ${rankAtual}`;
+            }
+
+            const fill = document.querySelector('.rank-progress-fill');
+            const nextText = document.querySelector('.rank-next strong');
+            if (fill) fill.style.width = `${Math.min(porcentagem, 100)}%`;
+            if (nextText) nextText.textContent = proximoRank;
+
+            const tiers = document.querySelectorAll('.tier-item');
+            tiers.forEach(t => t.classList.remove('current'));
+            
+            if (rankAtual === "BRONZE" && tiers[0]) tiers[0].classList.add('current');
+            if (rankAtual === "PRATA" && tiers[1]) tiers[1].classList.add('current');
+            if (rankAtual === "OURO" && tiers[2]) tiers[2].classList.add('current');
+            if (rankAtual === "DIAMANTE" && tiers[3]) tiers[3].classList.add('current');
+        }
+
+        function carregarAtividades() {
+            const atividades = JSON.parse(localStorage.getItem('fuko_atividades')) || [];
+            const container = document.getElementById('activityContainer');
+
+            if (atividades.length === 0 || !container) return;
+
+            container.innerHTML = '';
+            atividades.forEach(act => {
+                const item = document.createElement('div');
+                item.className = 'webcore-act-card';
+                item.innerHTML = `
+                    <span>📝 ${act.titulo}</span>
+                    <span class="act-tag tag-green">${act.nota}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+        // Busca os dados salvos das atividades de estudo
+        const stats = JSON.parse(localStorage.getItem('userPerformance')) || {
+            acertos: 0,
+            erros: 0,
+            videosVistos: 0,
+            pdfsLidos: 0
+        };
+
+        // Atualiza os contadores na tela (garante que os teus elementos HTML usam estes IDs)
+        if (document.getElementById('totalAcertos')) {
+            document.getElementById('totalAcertos').textContent = stats.acertos;
+        }
+        if (document.getElementById('totalErros')) {
+            document.getElementById('totalErros').textContent = stats.erros;
+        }
+        if (document.getElementById('totalVideos')) {
+            document.getElementById('totalVideos').textContent = stats.videosVistos;
+        }
+        if (document.getElementById('totalPdfs')) {
+            document.getElementById('totalPdfs').textContent = stats.pdfsLidos;
+        }
+    });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+    <!-- Banner Principal -->
+    <section class="banner-carousel">
+        <div class="banner-slides">
+            <img src="banner 1 sally.png" class="slide active" alt="Banner 1">
+            <img src="banner 2 ace.png" class="slide" alt="Banner 2">
+            <img src="btemporario2.jpg" class="slide" alt="Banner 3">
+        </div>
+        <div class="banner-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Menu de Navegação -->
+    <nav class="bottons">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html" class="active-link">Home</a></li>
+                <li><a href="ajuda.html">Ajuda</a></li>
+                <li><a href="desempenho.html">Meu Desempenho</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- ÁREA DE USUÁRIO ISOLADA -->
+                <div id="userAuthArea" style="display: flex; gap: 8px; align-items: center;">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="signup.html" class="btn btn-primary">Sign up</a>
+                </div>
+                
+                <!-- CONTROLE DE DALTONISMO PRESERVADO -->
+                <details class="colorblind-control">
+                    <summary class="btn-colorblind">👁️ Filtro Daltonismo</summary>
+                    <div class="colorblind-dropdown">
+                        <button type="button" data-filter="none">Nenhum (Normal)</button>
+                        <button type="button" data-filter="deuteranopia">Deuteranopia (Verde)</button>
+                        <button type="button" data-filter="protanopia">Protanopia (Vermelho)</button>
+                        <button type="button" data-filter="tritanopia">Tritanopia (Azul)</button>
+                        <button type="button" data-filter="achromatopsia">Achromatopsia (PB)</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </nav>

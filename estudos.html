@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuko Hou - Estudos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+    <!-- Banner Principal -->
+    <section class="banner-carousel">
+        <div class="banner-slides">
+            <img src="banner 1 sally.png" class="slide active" alt="Banner 1">
+            <img src="banner 2 ace.png" class="slide" alt="Banner 2">
+            <img src="btemporario2.jpg" class="slide" alt="Banner 3">
+        </div>
+        <div class="banner-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Menu de Navegação -->
+    <nav class="bottons">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ajuda.html">Ajuda</a></li>
+                <li><a href="desempenho.html">Meu Desempenho</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- ÁREA DE USUÁRIO DINÂMICA (LOGIN/PERFIL) -->
+                <div id="userAuthArea" style="display: flex; gap: 8px; align-items: center;">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="signup.html" class="btn btn-primary">Sign up</a>
+                </div>
+                
+                <!-- CONTROLE DE DALTONISMO -->
+                <details class="colorblind-control">
+                    <summary class="btn-colorblind">👁️ Filtro Daltonismo</summary>
+                    <div class="colorblind-dropdown">
+                        <button type="button" data-filter="none">Nenhum (Normal)</button>
+                        <button type="button" data-filter="deuteranopia">Deuteranopia (Verde)</button>
+                        <button type="button" data-filter="protanopia">Protanopia (Vermelho)</button>
+                        <button type="button" data-filter="tritanopia">Tritanopia (Azul)</button>
+                        <button type="button" data-filter="achromatopsia">Achromatopsia (PB)</button>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+        <div class="section-title" style="text-align: center; margin-bottom: 10px;">
+            <h2>📚 Matérias e Conteúdos</h2>
+        </div>
+
+        <!-- O JS vai injetar todas as categorias e matérias dentro deste container -->
+        <div class="litlink-container" id="materiasContainer"></div>
+    </main>
+
+    <!-- SCRIPT DE GERENCIAMENTO DE MATÉRIAS, PERFIL E MÉTRICAS DE DESEMPENHO -->
+    <script>
+        // 1. ESTRUTURA DE DADOS DAS MATÉRIAS (Gera o HTML via JS)
+        const categoriasMaterias = [
+            {
+                titulo: "🌱 Ciências da Natureza",
+                materias: [
+                    { id: "biologia", title: "Biologia", subtitle: "Ecologia e Citologia", icon: "🧬", img: "foto temporaria.jpg", link: "biologia.html" },
+                    { id: "fisica", title: "Física", subtitle: "Mecânica e Eletricidade", icon: "⚡", img: "bannertemporario1.jpg", link: "fisica.html" },
+                    { id: "quimica", title: "Química", subtitle: "Orgânica e Estequiometria", icon: "🧪", img: "btemporario2.jpg", link: "quimica.html" }
+                ]
+            },
+            {
+                titulo: "🏛️ Ciências Humanas",
+                materias: [
+                    { id: "historia", title: "História", subtitle: "Brasil e História Geral", icon: "📜", img: "btemporario2.jpg", link: "historia.html" },
+                    { id: "geografia", title: "Geografia", subtitle: "Geopolítica e Meio Ambiente", icon: "🌍", img: "ft2.jpg", link: "geografia.html" },
+                    { id: "filosofia", title: "Filosofia", subtitle: "Ética e Política", icon: "🏛️️", img: "foto temporaria.jpg", link: "filosofia.html" },
+                    { id: "sociologia", title: "Sociologia", subtitle: "Cultura e Sociedade", icon: "👥", img: "bannertemporario1.jpg", link: "sociologia.html" }
+                ]
+            },
+            {
+                titulo: "📖 Linguagens & Exatas",
+                materias: [
+                    { id: "matematica", title: "Matemática", subtitle: "Geometria e TRI", icon: "📐", img: "foto temporaria.jpg", link: "matematica.html" },
+                    { id: "portugues", title: "Português", subtitle: "Gramática e Literatura", icon: "📚", img: "ft2.jpg", link: "portugues.html" },
+                    { id: "redacao", title: "Redação", subtitle: "Modelos e Repertórios", icon: "✍️", img: "banner.png", link: "redacao.html" },
+                    { id: "ingles", title: "Língua Estrangeira", subtitle: "Inglês e Espanhol", icon: "🔤", img: "btemporario2.jpg", link: "ingles.html" }
+                ]
+            },
+            {
+                titulo: "💻 Curso Técnico & Profissionalizante",
+                materias: [
+                    { id: "programacao", title: "Programação Web", subtitle: "HTML, CSS, JS e Lógica", icon: "💻", img: "bannertemporario1.jpg", link: "programacao.html" },
+                    { id: "banco-de-dados", title: "Banco de Dados", subtitle: "SQL, DER e Queries", icon: "🗄️", img: "foto temporaria.jpg", link: "banco-de-dados.html" },
+                    { id: "redes", title: "Redes & Hardware", subtitle: "Arquitetura e Manutenção", icon: "🌐", img: "ft2.jpg", link: "redes.html" }
+                ]
+            }
+        ];
+
+        // Renderiza os botões dinamicamente no DOM
+        function renderizarMaterias() {
+            const container = document.getElementById('materiasContainer');
+            if (!container) return;
+
+            container.innerHTML = categoriasMaterias.map(cat => `
+                <div class="category-title">${cat.titulo}</div>
+                <div class="litlink-grid">
+                    ${cat.materias.map(materia => `
+                        <a href="${materia.link}" class="litlink-card" onclick="registrarAcessoMateria('${materia.id}')">
+                            <div class="litlink-info">
+                                <span class="litlink-icon">${materia.icon}</span>
+                                <div class="litlink-text">
+                                    <span class="litlink-title">${materia.title}</span>
+                                    <span class="litlink-subtitle">${materia.subtitle}</span>
+                                </div>
+                            </div>
+                            <img src="${materia.img}" class="litlink-img" alt="${materia.title}">
+                        </a>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+
+        // 2. SISTEMA DE REGISTRO DE DESEMPENHO (Registra o clique/progresso para ler no desempenho.html)
+        function registrarAcessoMateria(materiaId) {
+            let stats = JSON.parse(localStorage.getItem('userPerformance')) || {
+                acertos: 0,
+                erros: 0,
+                videosVistos: 0,
+                pdfsLidos: 0,
+                materiasAcessadas: {}
+            };
+
+            // Incrementa acessos à matéria
+            stats.materiasAcessadas[materiaId] = (stats.materiasAcessadas[materiaId] || 0) + 1;
+            
+            // Exemplo de atualização de métricas genéricas ao abrir um conteúdo
+            stats.pdfsLidos += 1; 
+
+            localStorage.setItem('userPerformance', JSON.stringify(stats));
+        }
+
+        // Funções auxiliares chamáveis pelas páginas internas de matérias (ex: ao responder quiz/ver PDF):
+        window.registrarAtividade = function(tipo, valor = 1) {
+            let stats = JSON.parse(localStorage.getItem('userPerformance')) || {
+                acertos: 0, erros: 0, videosVistos: 0, pdfsLidos: 0, materiasAcessadas: {}
+            };
+            if (stats[tipo] !== undefined) {
+                stats[tipo] += valor;
+            }
+            localStorage.setItem('userPerformance', JSON.stringify(stats));
+        };
+
+        // 3. SESSÃO DO USUÁRIO (LOGIN/LOGOUT)
+        function checarSessaoUsuario() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userAuthArea = document.getElementById('userAuthArea');
+
+            if (currentUser && userAuthArea) {
+                const userName = currentUser.name || currentUser.email.split('@')[0];
+                const userAvatar = currentUser.avatar || 'https://via.placeholder.com/80';
+
+                userAuthArea.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <img src="${userAvatar}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-pink);" alt="Perfil">
+                        <span style="font-size: 0.9rem; font-weight: 600;">${userName}</span>
+                    </div>
+                    <button id="logoutBtn" class="btn btn-outline" style="margin-left: 5px; padding: 5px 10px; font-size: 0.8rem;">Sair</button>
+                `;
+
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            }
+        }
+
+        // 4. CARROSSEL DE BANNERS
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let bannerInterval;
+
+        function goToSlide(index) {
+            if (slides.length === 0) return;
+            slides.forEach(s => s.classList.remove('active'));
+            indicators.forEach(i => i.classList.remove('active'));
+
+            currentSlide = index;
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            goToSlide(next);
+        }
+
+        if (slides.length > 0) {
+            bannerInterval = setInterval(nextSlide, 10000);
+        }
+
+        indicators.forEach((ind, i) => {
+            ind.addEventListener('click', () => {
+                clearInterval(bannerInterval);
+                goToSlide(i);
+                bannerInterval = setInterval(nextSlide, 10000);
+            });
+        });
+
+        // 5. INICIALIZAÇÃO
+        document.addEventListener('DOMContentLoaded', () => {
+            renderizarMaterias();
+            checarSessaoUsuario();
+
+            // Filtro de Daltonismo
+            const root = document.documentElement;
+            const buttons = document.querySelectorAll('.colorblind-dropdown button');
+            const detailsMenu = document.querySelector('details.colorblind-control');
+
+            const filters = {
+                'none': 'none',
+                'protanopia': 'sepia(0.6) hue-rotate(-50deg) saturate(2.5)',
+                'deuteranopia': 'sepia(0.8) hue-rotate(170deg) saturate(1.2)',
+                'tritanopia': 'sepia(0.5) hue-rotate(80deg) saturate(2.2)',
+                'achromatopsia': 'grayscale(100%)'
+            };
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filterType = e.target.getAttribute('data-filter');
+                    if (filters[filterType] !== undefined) {
+                        root.style.filter = filters[filterType];
+                    }
+                    if (detailsMenu) {
+                        detailsMenu.removeAttribute('open');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

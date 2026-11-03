@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Fuko Hou - Log in</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+    <main class="main-content auth-container">
+        <div class="auth-card">
+            <h2>Entrar na Conta</h2>
+            
+            <form id="loginForm">
+                <!-- Seletor de Foto da Galeria -->
+                <div class="form-group avatar-upload-group">
+                    <label>Escolher foto de perfil (Galeria)</label>
+                    <div class="avatar-preview-box">
+                        <img id="avatarPreview" src="https://via.placeholder.com/80" alt="Avatar">
+                    </div>
+                    <input type="file" id="loginAvatar" accept="image/*" style="display: none;">
+                    <button type="button" class="btn btn-outline" onclick="document.getElementById('loginAvatar').click()">Selecionar Foto</button>
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Palavra-passe</label>
+                    <input type="password" id="loginPassword" placeholder="******" required>
+                </div>
+                
+                <p id="errorMessage" class="error-msg" style="display: none;"></p>
+                <button type="submit" class="view-more-btn" style="margin-top: 15px;">Log in</button>
+            </form>
+
+            <p style="text-align: center; margin-top: 15px; font-size: 0.85rem;">
+                Ainda não tem conta? <a href="signup.html" style="color: var(--accent-mint);">Registe-se</a> | <a href="index.html" style="color: var(--text-muted);">Voltar</a>
+            </p>
+        </div>
+    </main>
+
+    <script>
+        let uploadedAvatarBase64 = "";
+
+        // PRÉ-VISUALIZAR A FOTO DA GALERIA
+        document.getElementById('loginAvatar').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    uploadedAvatarBase64 = evt.target.result;
+                    document.getElementById('avatarPreview').src = uploadedAvatarBase64;
+                };
+                reader.readAsDataURL(file);
+                // Transforma a imagem em texto base64 para poder salvar no localStorage
+            }
+        });
+
+        // LÓGICA DE AUTENTICAÇÃO
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('loginEmail').value.trim();
+            const passwordInput = document.getElementById('loginPassword').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+
+            // Recupera os usuários cadastrados
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+            // Verifica se o usuário existe
+            const existingUser = users.find(u => u.email === emailInput && u.password === passwordInput);
+
+            if (!existingUser) {
+                errorMsg.textContent = 'Conta não encontrada ou senha incorreta. Inscreva-se primeiro!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            // Se o usuário selecionou uma nova foto no login, atualizamos a foto dele
+            if (uploadedAvatarBase64) {
+                existingUser.avatar = uploadedAvatarBase64;
+            }
+
+            // Salva a sessão ativa com a foto
+            localStorage.setItem('currentUser', JSON.stringify(existingUser));
+            
+            // Redireciona para o painel de desempenho
+            window.location.href = 'desempenho.html';
+        });
+    </script>
+</body>
+</html>

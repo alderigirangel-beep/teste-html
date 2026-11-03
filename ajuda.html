@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuko Hou - Central de Ajuda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+    <!-- Filtros SVG de Daltonismo -->
+    <svg style="display:none;">
+        <defs>
+            <filter id="protanopia"><feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0   0.558, 0.442, 0, 0, 0   0, 0.242, 0.758, 0, 0   0, 0, 0, 1, 0" /></filter>
+            <filter id="deuteranopia"><feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0   0.7, 0.3, 0, 0, 0   0, 0.3, 0.7, 0, 0   0, 0, 0, 1, 0" /></filter>
+            <filter id="tritanopia"><feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0   0, 0.433, 0.567, 0, 0   0, 0.475, 0.525, 0, 0   0, 0, 0, 1, 0" /></filter>
+        </defs>
+    </svg>
+
+    <!-- Banner Principal -->
+    <section class="banner-carousel">
+        <div class="banner-slides">
+            <img src="banner 1 sally.png" class="slide active" alt="Banner 1">
+            <img src="banner 2 ace.png" class="slide" alt="Banner 2">
+            <img src="btemporario2.jpg" class="slide" alt="Banner 3">
+        </div>
+        <div class="banner-indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+    </section>
+
+    <!-- Menu de Navegação -->
+    <nav class="bottons">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="ajuda.html" class="active-link">Ajuda</a></li>
+                <li><a href="desempenho.html">Meu Desempenho</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- ÁREA DE USUÁRIO (Será trocada via JavaScript se estiver logado) -->
+                <div id="userAuthArea" style="display: flex; gap: 8px; align-items: center;">
+                    <a href="login.html" class="btn btn-outline">Log in</a>
+                    <a href="signup.html" class="btn btn-primary">Sign up</a>
+                </div>
+
+                <!-- CONTROLE DE DALTONISMO PRES ERVADO -->
+                <div class="colorblind-control">
+                    <button id="colorblindBtn" class="btn-colorblind">👁️ Filtro Daltonismo</button>
+                    <div id="colorblindMenu" class="colorblind-dropdown" style="display: none;">
+                        <button data-filter="none">Nenhum (Normal)</button>
+                        <button data-filter="deuteranopia">Deuteranopia (Verde)</button>
+                        <button data-filter="protanopia">Protanopia (Vermelho)</button>
+                        <button data-filter="tritanopia">Tritanopia (Azul)</button>
+                        <button data-filter="achromatopsia">Achromatopsia (PB)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal: Janela do Assistente Yuta com Foto -->
+    <main class="main-content help-center">
+        <div class="welcome-container">
+            <!-- Plaqueta de Título -->
+            <div class="welcome-header-tag">
+                <span>༄˖°.🍂.ೃ࿔*:･Central de Ajuda ༄˖°.🍂.ೃ࿔*:･</span>
+            </div>
+
+            <!-- Card Principal Estilizado -->
+            <div class="welcome-card">
+                <!-- Coluna da Esquerda: Perfil do Assistente Yuta -->
+                <div class="welcome-left">
+                    <div class="assistant-avatar-box">
+                        <img src="yuta.png" alt="Yuta Avatar" class="assistant-avatar-img">
+                    </div>
+                    <h3 class="assistant-name">Yuta</h3>
+                    <p class="assistant-subtitle">Assistente Virtual do Site</p>
+
+                    <!-- Status / Links Rápidos -->
+                    <div class="assistant-links">
+                        <button class="chat-quick-btn" onclick="openChatTopic('simulado')">📝 Dúvidas de Simulados</button>
+                        <button class="chat-quick-btn" onclick="openChatTopic('redacao')">📄 Erro nas Redações</button>
+                        <button class="chat-quick-btn" onclick="openChatTopic('plataforma')">🌐 Erro na Plataforma</button>
+                        <button class="chat-quick-btn" onclick="openChatTopic('senha')">🔑 Redefinir Senha</button>
+                    </div>
+                </div>
+
+                <!-- Coluna da Direita: Janela do Chat Interativo -->
+                <div class="welcome-right">
+                    <div class="chat-display-header">
+                        <h4>💬 Suporte com Yuta</h4>
+                    </div>
+                    
+                    <!-- Caixa de Mensagens -->
+                    <div id="inlineChatMessages" class="inline-chat-messages">
+                        <div class="msg bot">
+                            <p>Prazer! Sou o <strong>Yuta</strong> . Estou aqui para te ajudar com dúvidas de estudo, dicas e suporte do site. Como posso te ajudar hoje?</p>
+                        </div>
+                    </div>
+
+                    <!-- Input para Digitar -->
+                    <div class="inline-chat-input">
+                        <input type="text" id="inlineInput" placeholder="Digite sua dúvida ou problema..." autocomplete="off">
+                        <button id="inlineSendBtn">➤</button>
+                    </div>
+                </div>
+            </div>
+            <div class="welcome-footer-tag">by Fuko Hou</div>
+        </div>
+    </main>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // 1. CARROSSEL DE BANNERS
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        let bannerInterval;
+
+        function goToSlide(index) {
+            if (slides.length === 0) return;
+            slides.forEach(s => s.classList.remove('active'));
+            indicators.forEach(i => i.classList.remove('active'));
+
+            currentSlide = index;
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (indicators[currentSlide]) indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            goToSlide(next);
+        }
+
+        if (slides.length > 0) {
+            bannerInterval = setInterval(nextSlide, 10000);
+        }
+
+        indicators.forEach((ind, i) => {
+            ind.addEventListener('click', () => {
+                clearInterval(bannerInterval);
+                goToSlide(i);
+                bannerInterval = setInterval(nextSlide, 10000);
+            });
+        });
+
+        // 2. FILTRO DE DALTONISMO
+        document.addEventListener('DOMContentLoaded', () => {
+            const root = document.documentElement;
+            const colorblindBtn = document.getElementById('colorblindBtn');
+            const colorblindMenu = document.getElementById('colorblindMenu');
+            const buttons = document.querySelectorAll('.colorblind-dropdown button');
+
+            const filters = {
+                'none': 'none',
+                'protanopia': 'sepia(0.6) hue-rotate(-50deg) saturate(2.5)',
+                'deuteranopia': 'sepia(0.8) hue-rotate(170deg) saturate(1.2)',
+                'tritanopia': 'sepia(0.5) hue-rotate(80deg) saturate(2.2)',
+                'achromatopsia': 'grayscale(100%)'
+            };
+
+            window.applyColorBlind = function(filterType) {
+                if (filters[filterType] !== undefined) {
+                    root.style.filter = filters[filterType];
+                }
+                if (colorblindMenu) {
+                    colorblindMenu.style.display = 'none';
+                }
+            };
+
+            if (colorblindBtn && colorblindMenu) {
+                colorblindBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isVisible = colorblindMenu.style.display === 'block';
+                    colorblindMenu.style.display = isVisible ? 'none' : 'block';
+                });
+
+                document.addEventListener('click', () => {
+                    colorblindMenu.style.display = 'none';
+                });
+
+                colorblindMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filterType = e.currentTarget.getAttribute('data-filter');
+                    if (filterType) {
+                        applyColorBlind(filterType);
+                    }
+                });
+            });
+
+            // 3. SESSÃO DO USUÁRIO LOGADO
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                const userName = currentUser.name || currentUser.email.split('@')[0];
+                const userAvatar = currentUser.avatar || 'https://via.placeholder.com/80';
+                const userAuthArea = document.getElementById('userAuthArea');
+
+                if (userAuthArea) {
+                    userAuthArea.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <img src="${userAvatar}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-pink);" alt="Perfil">
+                            <span style="font-size: 0.9rem; font-weight: 600;">${userName}</span>
+                        </div>
+                        <button id="logoutBtn" class="btn btn-outline" style="margin-left: 5px; padding: 5px 10px; font-size: 0.8rem;">Sair</button>
+                    `;
+
+                    document.getElementById('logoutBtn').addEventListener('click', () => {
+                        localStorage.removeItem('currentUser');
+                        window.location.reload();
+                    });
+                }
+            }
+        });
+
+        // 4. LÓGICA DO ASSISTENTE YUTA
+        const inlineInput = document.getElementById('inlineInput');
+        const inlineSendBtn = document.getElementById('inlineSendBtn');
+        const inlineChatMessages = document.getElementById('inlineChatMessages');
+
+        function appendInlineMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender);
+            msgDiv.innerHTML = `<p>${text}</p>`;
+            inlineChatMessages.appendChild(msgDiv);
+            inlineChatMessages.scrollTop = inlineChatMessages.scrollHeight;
+        }
+
+        function handleInlineSend() {
+            const text = inlineInput.value.trim();
+            if (text === '') return;
+
+            appendInlineMessage(text, 'user');
+            inlineInput.value = '';
+
+            setTimeout(() => {
+                processBotReply(text);
+            }, 600);
+        }
+
+        function openChatTopic(topic) {
+            let userText = "";
+            if (topic === 'simulado') userText = "Estou com dúvidas ou problemas no simulado.";
+            if (topic === 'redacao') userText = "Minha redação não carregou ou deu erro.";
+            if (topic === 'plataforma') userText = "O site está lento ou com algum botão quebrado.";
+            if (topic === 'senha') userText = "Preciso redefinir minha senha ou conta.";
+
+            appendInlineMessage(userText, 'user');
+            setTimeout(() => {
+                processBotReply(userText);
+            }, 600);
+        }
+
+        function processBotReply(input) {
+            const textLower = input.toLowerCase();
+            let reply = "Hum, não tenho certeza sobre essa dúvida específica. Tente reformular a pergunta ou entre em contato com a equipe pelo e-mail suporte@fukohou.com.br!";
+
+            if (textLower.includes('simulado') || textLower.includes('prova')) {
+                reply = "Para os simulados: certifique-se de salvar suas respostas antes do tempo expirar. Se a tela travar, recarregue a página (F5) que suas respostas salvas continuarão lá!";
+            } else if (textLower.includes('redação') || textLower.includes('redacao')) {
+                reply = "Sobre as redações: envie arquivos nos formatos PDF ou JPG (máx. 10MB). Se der erro no envio, limpe o cache do seu navegador e tente de novo.";
+            } else if (textLower.includes('plataforma') || textLower.includes('site') || textLower.includes('lento') || textLower.includes('bug') || textLower.includes('erro')) {
+                reply = "Se a plataforma estiver lenta ou com erro visual, verifique sua conexão de internet ou tente abrir o site numa aba anônima. Eu mantenho o sistema sob monitoramento constante!";
+            } else if (textLower.includes('senha') || textLower.includes('login') || textLower.includes('conta') || textLower.includes('acesso')) {
+                reply = "Para problemas de acesso: vá até a tela de Log in, clique em 'Esqueci minha senha' e siga o passo a passo enviado ao seu e-mail cadastrado.";
+            } else if (textLower.includes('desempenho') || textLower.includes('nota') || textLower.includes('gráfico') || textLower.includes('grafico')) {
+                reply = "Você pode acompanhar toda a sua evolução, notas e estatísticas por matéria clicando na aba 'Meu Desempenho' no menu superior!";
+            } else if (textLower.includes('oi') || textLower.includes('olá') || textLower.includes('ola') || textLower.includes('yuta')) {
+                reply = "Olá! Sou o Yuta. Pode me perguntar sobre matérias de estudo, funcionamento das provas, redação ou erros na plataforma!";
+            } else if (textLower.includes('obrigado') || textLower.includes('obrigada') || textLower.includes('valeu') || textLower.includes('obg')) {
+                reply = "De nada! Estou sempre por aqui para ajudar. Bons estudos e conta comigo!";
+            }
+
+            appendInlineMessage(reply, 'bot');
+        }
+
+        if (inlineSendBtn) {
+            inlineSendBtn.addEventListener('click', handleInlineSend);
+            inlineInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleInlineSend();
+            });
+        }
+    </script>
+</body>
+</html>
